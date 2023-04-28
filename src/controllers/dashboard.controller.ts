@@ -3,13 +3,15 @@ import logs from "../config/log";
 
 const NAMESPACE = "Dashboard Controller";
 
-const calculateCompoundInterest = (req: Request,res: Response,next: NextFunction) => {
+const calculateCompoundInterest = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   logs.info(NAMESPACE, `Dashboard API called`);
 
   let currentAmount;
-  const principal = Number(req.query.principal);
-  const rate = Number(req.query.rate);
-  const year = Number(req.query.year);
+  const { principal, rate, year } = req.body;
   const profit = Number(rate / 100);
   const workmonth = Number(year * 12);
   const result = [];
