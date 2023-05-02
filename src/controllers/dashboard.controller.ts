@@ -1,13 +1,12 @@
 import { Request, Response, NextFunction } from "express";
 import logs from "../config/log";
+import db from "../database/database";
+import { ErrorCodes } from '../model/error.codes';
+import { ResponseObject } from '../model/response';
 
 const NAMESPACE = "Dashboard Controller";
 
-const calculateCompoundInterest = (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+const calculateCompoundInterest = (req: Request,res: Response, next: NextFunction) => {
   logs.info(NAMESPACE, `Dashboard API called`);
 
   let currentAmount;
@@ -35,6 +34,22 @@ const calculateCompoundInterest = (
   });
 };
 
-const summary = (req: Request, res: Response, next: NextFunction) => {};
+const createDashboard = async (req: Request, res: Response, next: NextFunction) => {
+  logs.info(NAMESPACE, `createDashboard called`);
 
-export default { calculateCompoundInterest };
+  if(!req.body || !req.body.name || !req.body.userId){
+    return res.status(400).json(new ResponseObject([],ErrorCodes.MISSING_PARAMETERS));
+  }
+
+  const { name, userId } = req.body;
+
+  const result = await db.query("insert into dashboard (name,user_id,is_active) values($1,$2,$3) returning id", [name,userId,true]);
+
+  if (result.rowCount <= 0) {
+    return res.status(404).json(new ResponseObject([],ErrorCodes.NOT_FOUND));
+  }
+
+  return res.status(200).json(new ResponseObject(result.rows));
+};
+
+export default { calculateCompoundInterest, createDashboard };
