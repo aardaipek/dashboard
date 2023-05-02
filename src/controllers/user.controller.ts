@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import logs from "../config/log";
 import db from "../database/database";
-import { ErrorCodes } from '../model/errorCodes';
+import { ErrorCodes } from '../model/error.codes';
 import { ResponseObject } from '../model/response';
 
 const NAMESPACE = "User Controller";
