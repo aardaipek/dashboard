@@ -4,7 +4,7 @@ export const enum ActivityTypes {
     BOND = 3,
     REAL_ESTATE = 4,
     ETF = 5,
-    FUND = 6
+    FUND = 6,
     CURRENCY = 7,
     CRYPTO = 8,
   }
