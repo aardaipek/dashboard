@@ -1,10 +1,10 @@
 import express from 'express';
-import activityController from '../controllers/activity.controller';
+import { ActivityController } from '../controllers/activity.controller';
 
 const router = express.Router();
 
-router.post('/addActivity', activityController.addActivity);
-router.post('/getActivities', activityController.getActivities);
+router.post('/addActivity', new ActivityController().addActivity);
+router.post('/getActivities', new ActivityController().getActivities);
 
 
 export = router;
